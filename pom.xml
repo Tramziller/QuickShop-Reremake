@@ -114,7 +114,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.4.0</version>
                 <configuration>
                     <finalName>QuickShop</finalName>
                     <minimizeJar>true</minimizeJar>
@@ -235,6 +235,10 @@
                         <relocation>
                             <pattern>de.leonhard.storage.</pattern>
                             <shadedPattern>org.maxgamer.quickshop.shade.de.leonhard.storage.</shadedPattern>
+                        </relocation>
+                        <relocation>
+                            <pattern>com.github.puregero.multilib</pattern>
+                            <shadedPattern>org.maxgamer.quickshop.shade.multilib</shadedPattern>
                         </relocation>
                     </relocations>
                     <transformers>
@@ -432,6 +436,10 @@
         <repository>
             <id>minebench-repo</id>
             <url>https://repo.minebench.de/</url>
+        </repository>
+        <repository>
+            <id>clojars</id>
+            <url>https://repo.clojars.org</url>
         </repository>
     </repositories>
 
@@ -890,6 +898,12 @@
             <artifactId>Reserve</artifactId>
             <version>0.1.5.4</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.puregero</groupId>
+            <artifactId>multilib</artifactId>
+            <version>1.1.8</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 </project>

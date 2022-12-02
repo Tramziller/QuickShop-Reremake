@@ -20,6 +20,7 @@
 package org.maxgamer.quickshop.shop;
 
 import com.dumptruckman.bukkit.configuration.json.JsonConfiguration;
+import com.github.puregero.multilib.MultiLib;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import lombok.Getter;
@@ -76,6 +77,15 @@ public class ShopLoader {
     public ShopLoader(@NotNull QuickShop plugin) {
         this.plugin = plugin;
         //this.warningSender = new WarningSender(plugin, 15000);
+
+        registerMultilib();
+    }
+
+    private void registerMultilib() {
+        MultiLib.onString(plugin, "org.maxgamer.quickshop.shop:loadShops", data -> {
+            System.out.println("Received loadShops notify");
+            loadShops(data);
+        });
     }
 
     public void loadShops() {

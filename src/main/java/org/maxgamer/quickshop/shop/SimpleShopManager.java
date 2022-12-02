@@ -19,6 +19,7 @@
 
 package org.maxgamer.quickshop.shop;
 
+import com.github.puregero.multilib.MultiLib;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.MapMaker;
@@ -337,6 +338,8 @@ public class SimpleShopManager implements ShopManager, Reloadable {
                         });
                     });
                 }));
+
+        MultiLib.notify("org.maxgamer.quickshop.shop:loadShops", shop.getLocation().getWorld().getName());
     }
 
     /**
@@ -1318,6 +1321,33 @@ public class SimpleShopManager implements ShopManager, Reloadable {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public void actionDirectTrade(@NotNull Player p, Info info, int amount) {
+        // Get the shop they interacted with
+        Shop shop = plugin.getShopManager().getShop(info.getLocation());
+        AbstractEconomy eco = plugin.getEconomy();
+
+        // It's not valid anymore
+        if (shop == null || !Util.canBeShop(info.getLocation().getBlock())) {
+            plugin.text().of(p, "chest-was-removed").send();
+            return;
+        }
+        if (p.getGameMode() == GameMode.CREATIVE && plugin.getConfig().getBoolean("shop.disable-creative-mode-trading")) {
+            plugin.text().of(p, "trading-in-creative-mode-is-disabled").send();
+            return;
+        }
+        if (info.hasChanged(shop)) {
+            plugin.text().of(p, "shop-has-changed").send();
+            return;
+        }
+
+        if(shop.isSelling()) {
+            actionSell(p.getUniqueId(), p.getInventory(), eco, info, shop, amount);
+        } else {
+            actionBuy(p.getUniqueId(), p.getInventory(), eco, info, shop, amount);
+        }
     }
 
     private void actionTrade(@NotNull Player p, Info info, @NotNull String message) {

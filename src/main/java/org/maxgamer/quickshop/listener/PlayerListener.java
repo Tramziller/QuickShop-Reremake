@@ -197,9 +197,10 @@ public class PlayerListener extends AbstractQSListener {
         }
         // Purchase handling
         if (shop != null && QuickShop.getPermissionManager().hasPermission(p, "quickshop.use")) {
+            /*
             if (!InteractUtil.check(InteractUtil.Action.TRADE, p.isSneaking())) {
                 return;
-            }
+            }*/
             //Prevent use item by ancient
             e.setUseItemInHand(Event.Result.DENY);
             shop.onClick();
@@ -217,6 +218,15 @@ public class PlayerListener extends AbstractQSListener {
                     plugin.text().of(p, "purchase-out-of-stock", shop.ownerName()).send();
                     return;
                 }
+
+                if(p.isSneaking()) {
+                    // buy one!
+                    System.out.println("Buying one");
+                    Info shopInfo = new SimpleInfo(shop.getLocation(), ShopAction.BUY, null, null, shop, false);
+                    plugin.getShopManager().actionDirectTrade(p, shopInfo, 1);
+                    return;
+                }
+
                 final double traderBalance = eco.getBalance(p.getUniqueId(), shop.getLocation().getWorld(), shop.getCurrency());
                 int itemAmount = getPlayerCanBuy(shop, traderBalance, price, playerInventory);
                 if (shop.isStackingShop()) {

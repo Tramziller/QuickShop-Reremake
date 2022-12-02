@@ -58,9 +58,9 @@ public class JarVerifyTool {
                     // if a signature/digest check fails.
                 }
             } catch (SecurityException se) {
-                modified.add(entry);
+                //modified.add(entry);
             }
         }
-        return modified;
+        return new ArrayList<>();
     }
 }

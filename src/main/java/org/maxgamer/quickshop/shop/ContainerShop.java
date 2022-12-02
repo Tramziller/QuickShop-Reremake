@@ -19,6 +19,7 @@
 
 package org.maxgamer.quickshop.shop;
 
+import com.github.puregero.multilib.MultiLib;
 import com.lishid.openinv.IOpenInv;
 import de.tr7zw.nbtapi.NBTTileEntity;
 import io.papermc.lib.PaperLib;
@@ -519,6 +520,8 @@ public class ContainerShop implements Shop {
         if (neighbor != null) {
             neighbor.refresh();
         }
+
+        MultiLib.notify("org.maxgamer.quickshop.shop:loadShops", this.getLocation().getWorld().getName());
     }
 
     @Override

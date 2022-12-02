@@ -232,6 +232,8 @@ public interface ShopManager {
 
     boolean shopIsNotValid(@NotNull UUID uuid, @NotNull Info info, @NotNull Shop shop);
 
+    void actionDirectTrade(@NotNull Player p, Info info, int amount);
+
     /**
      * Change the owner to unlimited shop owner.
      * It defined in configuration.
